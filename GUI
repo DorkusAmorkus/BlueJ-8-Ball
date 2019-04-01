@@ -1,0 +1,61 @@
+/**
+* Several imports for GUI related classes
+*/
+import javax.swing.UIManager.LookAndFeelInfo; 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener; 
+import javax.swing.border.Border;
+import javax.swing.*;
+
+// The class extends the Java class named JFrame
+public class initialGUICodeListing extends JFrame { 
+    
+    // When you GUI has a menu, you need a JMenuBar
+    private JMenuBar menuBar;
+
+        // This constructor builds your GUI
+        public initialGUICodeListing(){
+            // Title and size for the window
+            this.setTitle("GUI_project"); this.setSize(500,400);
+            //
+            generateMenu(); 
+            this.setJMenuBar(menuBar);
+
+                // Your GUI needs a JPanel to hold the labels , etc
+                JPanel contentPane = new JPanel(null);
+                contentPane.setPreferredSize(new Dimension(500,400));
+                contentPane.setBackground(new Color(192,192,192));
+                
+                // The JFrame is a container to which the panel is added
+                this.add(contentPane);
+
+                // some lines removed ...
+
+                // The JFrame must be visible to the user
+                this.setVisible(true);
+                
+            }
+            
+            //method for generate menu
+            public void generateMenu(){ menuBar = new JMenuBar(); 
+                // some lines removed ...
+            }
+            
+            // the main() method creates a running GUI
+            public static void main(String[] args){
+                System.setProperty("swing.defaultlaf",
+                "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                javax.swing.SwingUtilities.invokeLater(new Runnable () {
+                    public void run() {
+                        new GUI_project();
+                    }
+                });
+            }
+        }
