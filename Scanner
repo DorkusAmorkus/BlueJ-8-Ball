@@ -1,7 +1,7 @@
 
 //// This is an example of using a folder to hold a file that is accessed.
 //// You need to make a folder in the same directory as this script called test.
-//// Put the BOB.txt file in the test directory. 
+//// Put the Die.txt file in the test directory. 
 
 import java.io.File;
 import java.io.FileNotFoundException;
