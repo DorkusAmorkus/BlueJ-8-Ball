@@ -1,61 +1,117 @@
-/**
-* Several imports for GUI related classes
-*/
-import javax.swing.UIManager.LookAndFeelInfo; 
-import java.awt.*;
+
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener; 
-import javax.swing.border.Border;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
-// The class extends the Java class named JFrame
-public class initialGUICodeListing extends JFrame { 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+
+  public class JavaGui{
+     
+   static int off;
+   static JFrame f = new JFrame("Type question and press button");
+   public static void main (String[] args) throws FileNotFoundException{
+     //boolean RandomTextBoolean = false; 
+     /////////////////////////////////
+      
+     JavaGui checkOff = new JavaGui();
+     
+     /////////////////////////////////
+
+     //JFrame f = new JFrame("Type question and press button");
+      
+      f.setSize(500, 500);
+      f.setLocation(300,200);
+      
+      JTextArea Input = new JTextArea(10, 40);
+      f.getContentPane().add(BorderLayout.NORTH, Input);
+      Input.setBackground(Color.BLACK);
+      Input.setForeground(Color.WHITE);
+
     
-    // When you GUI has a menu, you need a JMenuBar
-    private JMenuBar menuBar;
+      JButton button = new JButton("8");
+      f.getContentPane().add(BorderLayout.CENTER, button);
+      button.setBackground(Color.BLACK);
+      button.setOpaque(true);
+      button.setBorderPainted(false);
+      button.setForeground(Color.WHITE);
 
-        // This constructor builds your GUI
-        public initialGUICodeListing(){
-            // Title and size for the window
-            this.setTitle("GUI_project"); this.setSize(500,400);
-            //
-            generateMenu(); 
-            this.setJMenuBar(menuBar);
+    /*  button.addActionListener(new ActionListener ()
+      {          
+        public void actionPerformed(ActionEvent touchButt) {
+            //RandomTextBoolean=true;
+            int off = 1;
+            System.out.println("i exist!");
+        }  
+        
+      }); */
 
-                // Your GUI needs a JPanel to hold the labels , etc
-                JPanel contentPane = new JPanel(null);
-                contentPane.setPreferredSize(new Dimension(500,400));
-                contentPane.setBackground(new Color(192,192,192));
-                
-                // The JFrame is a container to which the panel is added
-                this.add(contentPane);
+      
+      button.addActionListener(new ActionListener (){          
+        public void actionPerformed(ActionEvent touchButt) 
+        {
+            //RandomTextBoolean=true;
+            off = 1;
+            // error catch and run the checkOFF 
+           try {
+             checkOff();
+          } 
+           catch (java.io.IOException ie){
+           System.exit(1);
+          }
+        }  
+      }); 
+      f.setVisible(true);
+   }   
+        
+    public static void checkOff() throws java.io.IOException  {
+        
+      JTextArea Output = new JTextArea(10, 40);
+      f.getContentPane().add(BorderLayout.SOUTH, Output);
+      Output.setEditable(false);
+      Output.setForeground(Color.WHITE);
+      Output.setBackground(Color.BLACK);
+      
+     if (off == 1) {
+        Random random = new Random();
+        //creating File instance to reference text file in Java
+        File text = new File("test/Die.txt");
+        
+        //Scanner keyBoard = new Scanner(System.in);
+        ArrayList<String> txtfromFile =new ArrayList(); // create a array
 
-                // some lines removed ...
-
-                // The JFrame must be visible to the user
-                this.setVisible(true);
-                
-            }
+        //Creating Scanner instnace to read File in Java
+        Scanner scnr = new Scanner(text);
+        //Reading each line of file using Scanner class
+         int lineNumber = 1;
+        while(scnr.hasNextLine()){
+            String line = scnr.nextLine();
+            txtfromFile.add(line);
             
-            //method for generate menu
-            public void generateMenu(){ menuBar = new JMenuBar(); 
-                // some lines removed ...
-            }
-            
-            // the main() method creates a running GUI
-            public static void main(String[] args){
-                System.setProperty("swing.defaultlaf",
-                "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-                javax.swing.SwingUtilities.invokeLater(new Runnable () {
-                    public void run() {
-                        new GUI_project();
-                    }
-                });
-            }
-        }
+            //System.out.println("line " + lineNumber + " :" + line);
+            //lineNumber++;
+      }      
+        
+        ////////// add your random int generator here
+        int randomInteger = random.nextInt(13); 
+                                
+       //System.out.println(txtfromFile.get(randomInteger)); 
+       Output.setText(txtfromFile.get(randomInteger));  
+       
+    } else {
+          System.out.println("else state of off" + off);
+        };
+    } 
+}
