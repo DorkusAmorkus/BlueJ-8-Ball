@@ -161,16 +161,20 @@ public class RadBall {
     
     public static void ByeBye() throws java.io.IOException 
         { 
-             final GpioController gpio = GpioFactory.getInstance();
-             System.out.print("meme");
+             final GpioController gpio2 = GpioFactory.getInstance();
+             final GpioPinDigitalOutput led2 = gpio2.provisionDigitalOutputPin(RaspiPin.GPIO_03);
+            
         // provision gpio pin #01 & #03 as an output pins and blink
 
         // provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-        final GpioPinDigitalInput outerButt = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);
+        final GpioPinDigitalInput outerButt = gpio2.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);
         outerButt.addListener(new GpioPinListenerDigital() {
                 @Override
-                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-                   System.exit(0);
+                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent B) {
+                   //System.out.println("meme");
+                   if(B.getState().isHigh()){
+                    System.exit(1);
+                }
 }
 });
 }
