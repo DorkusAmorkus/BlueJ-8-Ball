@@ -1,0 +1,177 @@
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+public class RadBall {
+     
+   static int off;
+   static JFrame f = new JFrame("Type question and press button");
+   
+  
+        
+   public static void main (String[] args) throws FileNotFoundException{
+     //boolean RandomTextBoolean = false; 
+     /////////////////////////////////
+      
+     JavaGui checkOff = new JavaGui();
+     
+     /////////////////////////////////
+
+     //JFrame f = new JFrame("Type question and press button");
+      
+      f.setSize(500, 500);
+      f.setLocation(300,200);
+      
+      JTextArea Input = new JTextArea(10, 40);
+      f.getContentPane().add(BorderLayout.NORTH, Input);
+      Input.setBackground(Color.BLACK);
+      Input.setForeground(Color.WHITE);
+
+    
+      JButton button = new JButton("8");
+      f.getContentPane().add(BorderLayout.CENTER, button);
+      button.setBackground(Color.BLACK);
+      button.setOpaque(true);
+      button.setBorderPainted(false);
+      button.setForeground(Color.WHITE);
+
+    /*  button.addActionListener(new ActionListener ()
+      {          
+        public void actionPerformed(ActionEvent touchButt) {
+            //RandomTextBoolean=true;
+            int off = 1;
+            System.out.println("i exist!");
+        }  
+        
+      }); */
+
+      
+      button.addActionListener(new ActionListener (){          
+        public void actionPerformed(ActionEvent touchButt) 
+        {
+            //RandomTextBoolean=true;
+            off = 1;
+            // error catch and run the checkOFF 
+           try {
+             checkOff();
+             GPIO();
+             ByeBye();
+          } 
+           catch (java.io.IOException ie){
+           System.exit(1);
+          }
+        }  
+      }); 
+      f.setVisible(true);
+   }   
+   
+   public static void GPIO() throws java.io.IOException 
+        { 
+             final GpioController gpio = GpioFactory.getInstance();
+        // provision gpio pin #01 & #03 as an output pins and blink
+        final GpioPinDigitalOutput led2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01);
+
+        // provision gpio pin #02 as an input pin with its internal pull down resistor enabled
+        final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, PinPullResistance.PULL_DOWN);
+        myButton.addListener(new GpioPinListenerDigital() {
+
+                @Override
+                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+                    // when button is pressed, speed up the blink rate on LED #2
+                    if(event.getState().isHigh()){
+                      led2.blink(200);
+                    }
+                    else{
+                      led2.blink(1000);
+                    }
+                }
+            });
+
+
+        // continuously blink the led every 1 second
+        led2.blink(1000);
+
+
+        // keep program running until user aborts (CTRL-C)
+        while(true) {
+
+        }
+    }
+       
+    public static void checkOff() throws java.io.IOException  {
+        
+      JTextArea Output = new JTextArea(10, 40);
+      f.getContentPane().add(BorderLayout.SOUTH, Output);
+      Output.setEditable(false);
+      Output.setForeground(Color.WHITE);
+      Output.setBackground(Color.BLACK);
+      
+     if (off == 1) {
+        Random random = new Random();
+        //creating File instance to reference text file in Java
+        File text = new File("test/Die.txt");
+        
+        //Scanner keyBoard = new Scanner(System.in);
+        ArrayList<String> txtfromFile =new ArrayList(); // create a array
+
+        //Creating Scanner instnace to read File in Java
+        Scanner scnr = new Scanner(text);
+        //Reading each line of file using Scanner class
+         int lineNumber = 1;
+        while(scnr.hasNextLine()){
+            String line = scnr.nextLine();
+            txtfromFile.add(line);
+            
+            //System.out.println("line " + lineNumber + " :" + line);
+            //lineNumber++;
+      }      
+        
+        ////////// add your random int generator here
+        int randomInteger = random.nextInt(13); 
+                                
+       //System.out.println(txtfromFile.get(randomInteger)); 
+       Output.setText(txtfromFile.get(randomInteger));  
+       
+    } else {
+          System.out.println("else state of off" + off);
+        };
+    }
+    
+    public static void ByeBye() throws java.io.IOException 
+        { 
+             final GpioController gpio = GpioFactory.getInstance();
+             System.out.print("meme");
+        // provision gpio pin #01 & #03 as an output pins and blink
+
+        // provision gpio pin #02 as an input pin with its internal pull down resistor enabled
+        final GpioPinDigitalInput outerButt = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);
+        outerButt.addListener(new GpioPinListenerDigital() {
+                @Override
+                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+                   System.exit(0);
+}
+});
+}
+}
