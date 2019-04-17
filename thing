@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RadBall {
-     
+     static int bye;
    static int off;
    static JFrame f = new JFrame("Type question and press button");
    
@@ -73,6 +73,7 @@ public class RadBall {
         {
             //RandomTextBoolean=true;
             off = 1;
+            bye = 0;
             // error catch and run the checkOFF 
            try {
              checkOff();
@@ -162,7 +163,7 @@ public class RadBall {
     public static void ByeBye() throws java.io.IOException 
         { 
              final GpioController gpio2 = GpioFactory.getInstance();
-             final GpioPinDigitalOutput led2 = gpio2.provisionDigitalOutputPin(RaspiPin.GPIO_03);
+             
             
         // provision gpio pin #01 & #03 as an output pins and blink
 
@@ -173,9 +174,13 @@ public class RadBall {
                 public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent B) {
                    //System.out.println("meme");
                    if(B.getState().isHigh()){
-                    System.exit(1);
+                       System.out.println("e");
+        while(bye==1){
+                 System.exit(1);
                 }
+            }
+        }
+    }
 }
-});
-}
-}
+
+
